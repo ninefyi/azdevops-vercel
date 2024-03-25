@@ -1,0 +1,21 @@
+trigger:
+- main
+ 
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+- group: vercel-deployment-variable-group
+ 
+steps:
+- task: vercel-deployment-task@1
+  inputs:
+    vercelProjectId: $(VERCEL_PROJECT_ID)
+    vercelOrgId: $(VERCEL_ORG_ID)
+    vercelToken: $(VERCEL_PAT)
+    vercelCWD: $(System.DefaultWorkingDirectory)/vue-project
+    production: true
+- task: vercel-azdo-pr-comment-task@1
+  inputs:
+    azureToken: $(AZ_TOKEN)
+    deploymentTaskMessage: $(Deploy.deploymentTaskMessage)
